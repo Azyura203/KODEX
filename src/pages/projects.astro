@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LayoutComponent from '../components/Layout';
+import ProtectedRoute from '../components/ProtectedRoute';
+import FileUploader from '../components/FileUploader';
+import DocumentationEditor from '../components/DocumentationEditor';
+---
+
+<Layout title="Projects - KODEX">
+  <LayoutComponent client:load>
+    <ProtectedRoute client:load>
+      <div class="max-w-7xl mx-auto px-6 py-8 lg:px-8">
+        <div class="mb-8">
+          <h1 class="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Project Files
+          </h1>
+          <p class="text-xl text-slate-600 dark:text-slate-400">
+            Upload and manage your project documentation files with GitHub-like functionality.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          {/* File Upload Section */}
+          <div class="space-y-6">
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-6">
+              <h2 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">
+                Upload Files & Folders
+              </h2>
+              <FileUploader client:load />
+            </div>
+          </div>
+
+          {/* Documentation Editor */}
+          <div class="space-y-6">
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+              <div class="p-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-xl font-semibold text-slate-900 dark:text-white">
+                  Documentation Editor
+                </h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                  Create and edit documentation files
+                </p>
+              </div>
+              <div class="h-96">
+                <DocumentationEditor client:load />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-6 rounded-lg border border-blue-200 dark:border-blue-800">
+            <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+              Drag & Drop Upload
+            </h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm">
+              Easily upload files and entire folders with drag and drop functionality, just like GitHub.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-6 rounded-lg border border-green-200 dark:border-green-800">
+            <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+              Smart File Detection
+            </h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm">
+              Automatically detects file types and loads content for markdown, text, and code files.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 p-6 rounded-lg border border-purple-200 dark:border-purple-800">
+            <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+              Integrated Editor
+            </h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm">
+              Edit documentation directly in the browser with live preview and AI assistance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </ProtectedRoute>
+  </LayoutComponent>
+</Layout>

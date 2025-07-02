@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LayoutComponent from '../components/Layout';
+import ProtectedRoute from '../components/ProtectedRoute';
+import LocalDatabaseGitManager from '../components/LocalDatabaseGitManager';
+---
+
+<Layout title="Database Git Manager - KODEX">
+  <LayoutComponent client:load>
+    <ProtectedRoute client:load>
+      <div class="h-[calc(100vh-4rem)]">
+        <LocalDatabaseGitManager client:only="react" />
+      </div>
+    </ProtectedRoute>
+  </LayoutComponent>
+</Layout>

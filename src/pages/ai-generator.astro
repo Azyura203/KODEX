@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LayoutComponent from '../components/Layout';
+import ProtectedRoute from '../components/ProtectedRoute';
+import AIMarkdownGenerator from '../components/AIMarkdownGenerator';
+---
+
+<Layout title="AI Generator - KODEX">
+  <LayoutComponent client:load>
+    <ProtectedRoute client:load>
+      <div class="h-[calc(100vh-4rem)]">
+        <AIMarkdownGenerator client:load />
+      </div>
+    </ProtectedRoute>
+  </LayoutComponent>
+</Layout>
+
+<style>
+  /* Ensure the AI generator takes full height */
+  :global(.ai-generator-container) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Smooth transitions */
+  :global(.transition-all) {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+  
+  /* Enhanced scrollbars */
+  :global(::-webkit-scrollbar) {
+    width: 8px;
+    height: 8px;
+  }
+  
+  :global(::-webkit-scrollbar-track) {
+    background: transparent;
+  }
+  
+  :global(::-webkit-scrollbar-thumb) {
+    background: rgba(203, 213, 225, 0.8);
+    border-radius: 4px;
+  }
+  
+  :global(.dark ::-webkit-scrollbar-thumb) {
+    background: rgba(71, 85, 105, 0.8);
+  }
+  
+  :global(::-webkit-scrollbar-thumb:hover) {
+    background: rgba(148, 163, 184, 0.8);
+  }
+  
+  :global(.dark ::-webkit-scrollbar-thumb:hover) {
+    background: rgba(100, 116, 139, 0.8);
+  }
+  
+  /* Ensure markdown content is properly styled */
+  :global(.prose) {
+    max-width: none !important;
+  }
+  
+  :global(.prose pre) {
+    margin: 1.5em 0 !important;
+    padding: 1em !important;
+    border-radius: 0.5rem !important;
+  }
+  
+  :global(.prose code) {
+    font-size: 0.9em !important;
+  }
+  
+  :global(.prose h1, .prose h2, .prose h3) {
+    margin-top: 1.5em !important;
+    margin-bottom: 0.75em !important;
+  }
+  
+  /* Ensure fullscreen mode works properly */
+  :global(.fullscreen-mode) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    background: white;
+  }
+  
+  :global(.dark .fullscreen-mode) {
+    background: rgb(15, 23, 42);
+  }
+</style>

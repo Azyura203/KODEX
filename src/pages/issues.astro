@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LayoutComponent from '../components/Layout';
+import ProtectedRoute from '../components/ProtectedRoute';
+import IssueTracker from '../components/IssueTracker';
+---
+
+<Layout title="Issues - KODEX">
+  <LayoutComponent client:load>
+    <ProtectedRoute client:load>
+      <div class="max-w-6xl mx-auto px-6 py-8 lg:px-8">
+        <IssueTracker 
+          client:load
+          issues={[
+            {
+              id: '1',
+              title: 'Add support for custom themes',
+              description: 'Users should be able to create and apply custom themes to their documentation sites.',
+              status: 'open',
+              priority: 'medium',
+              type: 'feature',
+              author: 'john_doe',
+              assignee: 'jane_smith',
+              createdAt: '2024-01-15T10:30:00Z',
+              updatedAt: '2024-01-16T14:20:00Z',
+              comments: 5,
+              labels: ['enhancement', 'ui']
+            },
+            {
+              id: '2',
+              title: 'Fix markdown rendering issue with code blocks',
+              description: 'Code blocks with certain languages are not being highlighted correctly.',
+              status: 'in-progress',
+              priority: 'high',
+              type: 'bug',
+              author: 'jane_smith',
+              assignee: 'john_doe',
+              createdAt: '2024-01-14T09:15:00Z',
+              updatedAt: '2024-01-15T16:45:00Z',
+              comments: 3,
+              labels: ['bug', 'markdown']
+            },
+            {
+              id: '3',
+              title: 'Improve documentation for API endpoints',
+              description: 'The current API documentation is missing examples and detailed parameter descriptions.',
+              status: 'closed',
+              priority: 'medium',
+              type: 'documentation',
+              author: 'mike_wilson',
+              assignee: 'sarah_jones',
+              createdAt: '2024-01-10T11:00:00Z',
+              updatedAt: '2024-01-13T15:30:00Z',
+              comments: 8,
+              labels: ['documentation', 'api']
+            },
+            {
+              id: '4',
+              title: 'Critical security vulnerability in authentication',
+              description: 'Found a potential security issue in the user authentication flow that needs immediate attention.',
+              status: 'open',
+              priority: 'critical',
+              type: 'bug',
+              author: 'security_team',
+              assignee: 'john_doe',
+              createdAt: '2024-01-16T08:00:00Z',
+              updatedAt: '2024-01-16T08:00:00Z',
+              comments: 0,
+              labels: ['security', 'critical']
+            }
+          ]}
+        />
+      </div>
+    </ProtectedRoute>
+  </LayoutComponent>
+</Layout>
