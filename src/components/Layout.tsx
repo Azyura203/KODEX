@@ -19,8 +19,17 @@ export default function Layout({ children, showSidebar = true }: LayoutProps) {
   useEffect(() => {
     setMounted(true);
     
-    // Initialize session on app start
-    sessionManager.initializeSession().catch(console.error);
+    // Initialize session on app start with better error handling
+    const initSession = async () => {
+      try {
+        console.log('Layout: Initializing session...');
+        await sessionManager.initializeSession();
+      } catch (error) {
+        console.error('Layout: Session initialization failed:', error);
+      }
+    };
+    
+    initSession();
     
     // Reset notification session to prevent stale notifications
     notificationManager.resetSession();

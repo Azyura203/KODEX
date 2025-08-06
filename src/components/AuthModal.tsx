@@ -51,11 +51,14 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     setErrors({});
 
     try {
+      console.log('Auth form submission:', { isSignUp, email });
+      
       if (isSignUp) {
         const { data } = await authService.signUp(email, password, fullName);
         
         if (data.user && !data.session) {
           // Email confirmation required
+          console.log('Email confirmation required for:', email);
           setEmailSent(true);
           notificationManager.success(
             'Account Created! 🎉',
@@ -64,6 +67,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
           );
         } else if (data.session) {
           // User is automatically signed in
+          console.log('User automatically signed in:', data.user?.email);
           sessionManager.saveSession(data.session);
           notificationManager.success(
             `Welcome to KODEX, ${fullName}! 🎉`,
@@ -82,6 +86,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
         const { data } = await authService.signIn(email, password);
         
         if (data.session) {
+          console.log('Sign in successful:', data.user?.email);
           sessionManager.saveSession(data.session);
           
           // Don't show notification here - let AuthButton handle it to avoid duplicates
@@ -95,6 +100,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
         }
       }
     } catch (err) {
+      console.error('Authentication error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Authentication failed';
       
       let friendlyMessage = errorMessage;
@@ -104,6 +110,10 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
         friendlyMessage = 'Please check your email and click the confirmation link before signing in.';
       } else if (errorMessage.includes('User already registered')) {
         friendlyMessage = 'An account with this email already exists. Try signing in instead.';
+      } else if (errorMessage.includes('fetch')) {
+        friendlyMessage = 'Network error. Please check your internet connection and try again.';
+      } else if (errorMessage.includes('Failed to fetch')) {
+        friendlyMessage = 'Unable to connect to authentication service. Please try again later.';
       }
       
       notificationManager.error('Authentication Failed', friendlyMessage, 6000);

@@ -15,18 +15,37 @@ export default function AuthButton() {
   useEffect(() => {
     const initializeAuth = async () => {
       try {
+        console.log('Initializing auth in AuthButton...');
+        
+        // Test connection first
+        const connectionTest = await authService.testConnection();
+        if (!connectionTest.success) {
+          console.error('Supabase connection failed:', connectionTest.error);
+          // Continue with stored session if available
+        }
+        
         // First try to initialize session from storage or Supabase
         const session = await sessionManager.initializeSession();
         if (session?.user) {
+          console.log('User found in session:', session.user.email);
           setUser(session.user);
         } else {
+          console.log('No session found, checking current user...');
           // Fallback to current user check
           const currentUser = await authService.getCurrentUser();
+          console.log('Current user check result:', !!currentUser);
           setUser(currentUser);
         }
       } catch (error) {
         console.error('Auth initialization failed:', error);
-        setUser(null);
+        // Try to get user from stored session as last resort
+        const storedSession = sessionManager.getStoredSession();
+        if (storedSession?.user) {
+          console.log('Using stored session user as fallback');
+          setUser(storedSession.user);
+        } else {
+          setUser(null);
+        }
       } finally {
         setLoading(false);
         setIsInitialized(true);

@@ -16,18 +16,37 @@ export default function ProtectedRoute({ children, fallback }: ProtectedRoutePro
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        console.log('Checking auth in ProtectedRoute...');
+        
+        // Test connection first
+        const connectionTest = await authService.testConnection();
+        if (!connectionTest.success) {
+          console.warn('Supabase connection issue:', connectionTest.error);
+          // Continue with stored session check
+        }
+        
         // First try to get session from storage or initialize it
         const session = await sessionManager.initializeSession();
         if (session?.user) {
+          console.log('Protected route: User authenticated:', session.user.email);
           setUser(session.user);
         } else {
+          console.log('Protected route: No session, checking current user...');
           // Fallback to current user check
           const currentUser = await authService.getCurrentUser();
+          console.log('Protected route: Current user result:', !!currentUser);
           setUser(currentUser);
         }
       } catch (error) {
         console.error('Auth check failed:', error);
-        setUser(null);
+        // Try stored session as fallback
+        const storedSession = sessionManager.getStoredSession();
+        if (storedSession?.user) {
+          console.log('Protected route: Using stored session as fallback');
+          setUser(storedSession.user);
+        } else {
+          setUser(null);
+        }
       } finally {
         setLoading(false);
       }
@@ -41,11 +60,13 @@ export default function ProtectedRoute({ children, fallback }: ProtectedRoutePro
         if (e.newValue) {
           try {
             const session = JSON.parse(e.newValue);
+            console.log('Storage change detected: User signed in');
             setUser(session.user);
           } catch (error) {
             console.error('Error parsing session from storage:', error);
           }
         } else {
+          console.log('Storage change detected: User signed out');
           setUser(null);
         }
       }
